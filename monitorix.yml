@@ -1,0 +1,23 @@
+---
+- name: Install monitorix
+  hosts: monitorix
+  become: true
+  tasks:
+  - name: install the latest version of epel-release
+    yum:
+        name: epel-release
+        state: latest
+  - name: install the latest version of monitorix
+    yum:
+        name: monitorix
+        state: latest
+  - name: copy htpasswd file
+    copy: src=./htpasswd dest=/var/lib/monitorix/htpasswd seuser=system_u
+  - name: copy monitorix configuration file
+    copy: src=./monitorix.conf dest=/etc/monitorix/monitorix.conf seuser=system_u
+  - name: Start monitorix
+    service: name=monitorix state=started enabled=yes
+  - name: Ensure a job restart monitorix
+    cron:
+        minute="0"
+        job="systemctl restart monitorix"
