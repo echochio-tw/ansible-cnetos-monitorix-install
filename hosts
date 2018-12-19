@@ -1,0 +1,2 @@
+[monitorix]
+192.168.0.111 ansible_connection=ssh ansible_port=2222 ansible_ssh_user=root ansible_ssh_pass='xxxxxxxxx'
